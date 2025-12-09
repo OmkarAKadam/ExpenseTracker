@@ -6,19 +6,21 @@ import jakarta.servlet.annotation.WebListener;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
 import java.util.TimeZone;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @WebListener
 public class WeeklyReportScheduler implements ServletContextListener {
 
-    private Timer timer;
+    private ScheduledExecutorService executor;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("🕒 WeeklyReportScheduler initialized...");
 
-        timer = new Timer(true);
+        executor = Executors.newSingleThreadScheduledExecutor(); // NON-DAEMON → keeps server alive
 
         TimeZone tz = TimeZone.getTimeZone("Asia/Kolkata");
         Calendar cal = Calendar.getInstance(tz);
@@ -33,16 +35,18 @@ public class WeeklyReportScheduler implements ServletContextListener {
         Date firstRun = cal.getTime();
 
         if (firstRun.before(now)) {
-            cal.add(Calendar.WEEK_OF_YEAR, 1);
+            cal.add(Calendar.WEEK_OF_YEAR, 1); // Next week
             firstRun = cal.getTime();
         }
 
-        long oneWeekMillis = 7L * 24 * 60 * 60 * 1000;
+        long delay = firstRun.getTime() - now.getTime();
+        long period = 7L * 24 * 60 * 60 * 1000; // Every 7 days
 
-        timer.scheduleAtFixedRate(
+        executor.scheduleAtFixedRate(
                 new WeeklyReportTask(),
-                firstRun,
-                oneWeekMillis
+                delay,
+                period,
+                TimeUnit.MILLISECONDS
         );
 
         System.out.println("✅ WeeklyReportTask scheduled. First run at: " + firstRun);
@@ -50,8 +54,8 @@ public class WeeklyReportScheduler implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        if (timer != null) {
-            timer.cancel();
+        if (executor != null && !executor.isShutdown()) {
+            executor.shutdownNow();
             System.out.println("🛑 WeeklyReportScheduler stopped.");
         }
     }

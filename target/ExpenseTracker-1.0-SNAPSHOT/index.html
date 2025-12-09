@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Expense Tracker - Smart Finance Manager</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+    background:linear-gradient(135deg,#0d131d,#111a2c,#162032);
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* Hero Section */
+.hero{
+    text-align:center;
+    padding-top:120px;
+    animation:fadeIn .8s ease;
+}
+
+.hero h1{
+    font-size:42px;
+    font-weight:700;
+    color:#4da3ff;
+    margin-bottom:10px;
+}
+.hero h3{
+    font-weight:300;
+    font-size:18px;
+    opacity:.85;
+    margin-bottom:25px;
+}
+
+.hero p{
+    max-width:600px;
+    margin:auto;
+    font-size:15px;
+    opacity:.8;
+    line-height:1.6;
+}
+
+/* Buttons */
+.cta{
+    margin-top:30px;
+}
+
+.btn{
+    margin:8px;
+    padding:12px 32px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:600;
+    display:inline-block;
+    text-decoration:none;
+    transition:.25s;
+}
+
+.btn-login{background:#4da3ff;color:white;}
+.btn-login:hover{background:#1c86ff;transform:translateY(-2px);}
+
+.btn-register{background:#ffb341;color:black;}
+.btn-register:hover{background:#e09c28;transform:translateY(-2px);}
+
+/* Features Section */
+.features{
+    margin-top:90px;
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+    padding-bottom:60px;
+}
+
+.feature-box{
+    width:250px;
+    background:rgba(255,255,255,.07);
+    border-radius:14px;
+    padding:28px 22px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,.15);
+    backdrop-filter:blur(10px);
+    transition:.3s;
+}
+.feature-box:hover{
+    transform:translateY(-6px);
+    background:rgba(255,255,255,.10);
+}
+
+.feature-box h4{
+    font-size:18px;
+    margin-bottom:10px;
+    color:#4da3ff;
+}
+.feature-box p{
+    font-size:13px;
+    opacity:.8;
+    line-height:1.5;
+}
+
+/* Footer */
+footer{
+    text-align:center;
+    padding:22px;
+    font-size:12px;
+    margin-top:40px;
+    opacity:.6;
+}
+
+/* Animations */
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* Floating glow background circles */
+.glow{
+    position:absolute;
+    width:220px;height:220px;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.55;
+    z-index:-1;
+}
+.glow.blue{background:#1c86ff;top:60px;left:-60px;}
+.glow.purple{background:#9b59b6;bottom:20px;right:-60px;}
+.glow.yellow{background:#ffb341;top:260px;right:120px;}
+
+</style>
+</head>
+
+<body>
+
+<div class="glow blue"></div>
+<div class="glow purple"></div>
+<div class="glow yellow"></div>
+
+<div class="hero">
+    <h1>Expense Tracker</h1>
+    <h3>Smart finance management made effortless</h3>
+    <p>Track daily expenses, visualize spending patterns, download reports, and manage finances professionally — 
+       secure, fast, and intuitive.</p>
+
+    <div class="cta">
+        <a href="login.jsp" class="btn btn-login">Login</a>
+        <a href="register.jsp" class="btn btn-register">Create Account</a>
+    </div>
+
+    <p style="margin-top:16px;font-size:13px;opacity:.75;">
+        Admin? <a href="admin-login.jsp" style="color:#4da3ff;">Login here</a>
+    </p>
+</div>
+
+<div class="features">
+    <div class="feature-box">
+        <h4>📊 Analytics</h4>
+        <p>View category spending, monthly charts, and detailed financial insights.</p>
+    </div>
+    <div class="feature-box">
+        <h4>📄 Reports</h4>
+        <p>Download expenses as <b>PDF & CSV</b>, generate clean reports instantly.</p>
+    </div>
+    <div class="feature-box">
+        <h4>💾 Secure Data</h4>
+        <p>Password hashing & session protection ensures safe access.</p>
+    </div>
+    <div class="feature-box">
+        <h4>⚙ Smart Features</h4>
+        <p>Edit, filter, manage expenses with ease — smooth and fast.</p>
+    </div>
+</div>
+
+<footer>
+    Expense Tracker © Your Personal Finance Assistant
+</footer>
+
+</body>
+</html>

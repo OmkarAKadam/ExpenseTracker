@@ -4,9 +4,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/expense_tracker";
+    private static final String URL = "jdbc:mysql://shinkansen.proxy.rlwy.net:36676/railway?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true";
     private static final String USER = "root";   
-    private static final String PASS = "AZomkar97*";       
+    private static final String PASS = "nHDfjNQOyiodxiEJDkYORklMQslYbUFf";       
 
     public static Connection getConnection(){
         try {

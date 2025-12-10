@@ -8,20 +8,21 @@ import com.mycompany.expensetracker.config.DBConnection;
 import jakarta.servlet.annotation.WebServlet;
 
 @WebServlet("/VerifyOtpServlet")
-public class VerifyOTPServlet extends HttpServlet {
+public class VerifyOtpServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         String otp = req.getParameter("otp").trim();
-        HttpSession session = req.getSession();
-        String email = (String) session.getAttribute("email");
+        HttpSession session = req.getSession(false);
 
-        if(email == null){
-            resp.getWriter().println("Session expired. Register again.");
+        if(session == null || session.getAttribute("email") == null){
+            resp.sendRedirect("register.jsp?sessionExpired=1");
             return;
         }
+
+        String email = session.getAttribute("email").toString();
 
         try(Connection con = DBConnection.getConnection()){
 
@@ -31,23 +32,23 @@ public class VerifyOTPServlet extends HttpServlet {
             pst.setString(1, email);
             ResultSet rs = pst.executeQuery();
 
-            if(rs.next() && rs.getInt("otp") == Integer.parseInt(otp)){
+            if(rs.next() && rs.getString("otp").equals(otp)){
 
                 PreparedStatement update = con.prepareStatement(
-                    "UPDATE users SET verified=1, otp=NULL WHERE email=?"
+                    "UPDATE users SET verified=1, otp=NULL, role='USER' WHERE email=?"
                 );
                 update.setString(1, email);
                 update.executeUpdate();
 
                 session.removeAttribute("email");
-                resp.sendRedirect("login.jsp");
+                resp.sendRedirect("login.jsp?verified=1");
 
             } else {
-                resp.getWriter().println("Invalid OTP!");
+                resp.sendRedirect("verify-otp.jsp?invalidOtp=1");
             }
 
         } catch(Exception e){
-            resp.getWriter().println("Verification Failed");
+            resp.sendRedirect("verify-otp.jsp?error=1");
         }
     }
 }

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.sql.*;
 import org.mindrot.jbcrypt.BCrypt;
 import com.mycompany.expensetracker.config.DBConnection;
-//import com.mycompany.expensetracker.util.EmailUtil;
+import com.mycompany.expensetracker.util.EmailUtil;
 import jakarta.servlet.annotation.WebServlet;
 
 @WebServlet("/RegisterServlet")
@@ -48,11 +48,16 @@ public class RegisterServlet extends HttpServlet {
             pst.setInt(4, otp);
             pst.executeUpdate();
 
-//            EmailUtil.sendMail(
-//                email,
-//                "ExpenseTracker Email Verification",
-//                "Hi "+name+",\nYour OTP is: "+otp+"\nDo not share it."
-//            );
+            String htmlOtp =
+                    "<h2>Email Verification</h2>" +
+                    "<p>Hello <b>" + name + "</b>,</p>" +
+                    "<p>Your OTP for ExpenseTracker registration is:</p>" +
+                    "<h1 style='color:#2E86C1;'>" + otp + "</h1>" +
+                    "<p>Do not share this code with anyone.</p>" +
+                    "<br><p>Regards,<br><b>ExpenseTracker Team</b></p>";
+
+            EmailUtil.sendHTML(email, "ExpenseTracker Email Verification", htmlOtp);
+
 
             HttpSession session = req.getSession();
             session.setAttribute("email", email);

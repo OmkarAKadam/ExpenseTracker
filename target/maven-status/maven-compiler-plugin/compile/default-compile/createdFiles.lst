@@ -6,11 +6,11 @@ com\mycompany\expensetracker\servlets\LogoutServlet.class
 com\mycompany\expensetracker\servlets\SendResetOtpServlet.class
 com\mycompany\expensetracker\config\DBConnection.class
 com\mycompany\expensetracker\servlets\SetBudgetServlet.class
-com\mycompany\expensetracker\servlets\VerifyOTPServlet.class
 com\mycompany\expensetracker\servlets\AdminLoginServlet.class
 com\mycompany\expensetracker\servlets\ExportCSVServlet.class
 com\mycompany\expensetracker\servlets\AdminDashboardServlet.class
 com\mycompany\expensetracker\servlets\ResendOtpServlet.class
+com\mycompany\expensetracker\servlets\VerifyOtpServlet.class
 com\mycompany\expensetracker\service\AnalyticsService.class
 com\mycompany\expensetracker\servlets\UpdateExpenseServlet.class
 com\mycompany\expensetracker\servlets\ViewExpenseServlet.class

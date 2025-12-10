@@ -27,7 +27,7 @@ public class VerifyOtpServlet extends HttpServlet {
         try(Connection con = DBConnection.getConnection()){
 
             PreparedStatement pst = con.prepareStatement(
-                "SELECT otp FROM users WHERE email=? AND verified=0"
+                "SELECT otp FROM users WHERE email=?"
             );
             pst.setString(1, email);
             ResultSet rs = pst.executeQuery();

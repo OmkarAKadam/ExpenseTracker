@@ -13,7 +13,7 @@ E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetrack
 E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\util\PDFGenerator.java
 E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\servlets\EmailCSVTestServlet.java
 E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\servlets\ChangePasswordServlet.java
-E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\servlets\VerifyOTPServlet.java
+E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\servlets\VerifyOtpServlet.java
 E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\servlets\ExportCSVServlet.java
 E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\servlets\SendResetOtpServlet.java
 E:\Projects\JavaProjects\ExpenseTracker\src\main\java\com\mycompany\expensetracker\servlets\GenerateReportServlet.java

@@ -12,18 +12,22 @@ public class EmailUtil {
 
     private static Session getSession() {
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp-relay.brevo.com");
+        props.put("mail.smtp.port", "587");
 
         return Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
+                return new PasswordAuthentication(
+                    System.getenv("EMAIL_USER"),
+                    System.getenv("EMAIL_PASS")
+                );
             }
         });
     }
+
 
     public static void sendMail(String to, String subject, String otp) throws Exception {
         Message message = new MimeMessage(getSession());

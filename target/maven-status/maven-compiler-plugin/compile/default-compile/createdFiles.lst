@@ -24,6 +24,7 @@ com\mycompany\expensetracker\servlets\ExportPDFServlet.class
 com\mycompany\expensetracker\servlets\GenerateReportServlet.class
 com\mycompany\expensetracker\servlets\LoginServlet.class
 com\mycompany\expensetracker\tasks\WeeklyReportTask.class
+com\mycompany\expensetracker\util\HashGenerator.class
 com\mycompany\expensetracker\resources\JakartaEE10Resource.class
 com\mycompany\expensetracker\servlets\RegisterServlet.class
 com\mycompany\expensetracker\servlets\DeleteExpenseServlet.class

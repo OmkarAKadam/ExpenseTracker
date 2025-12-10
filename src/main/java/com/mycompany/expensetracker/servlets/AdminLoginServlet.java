@@ -32,7 +32,8 @@ public class AdminLoginServlet extends HttpServlet {
                     HttpSession session = req.getSession();
                     session.setAttribute("adminId", rs.getInt("id"));
                     session.setAttribute("adminName", rs.getString("name"));
-
+                    session.setAttribute("role", "ADMIN");
+                   
                     resp.sendRedirect("AdminDashboardServlet");
                 } else {
                     resp.getWriter().println("Wrong admin password!");

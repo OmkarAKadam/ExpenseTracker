@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("userId", rs.getInt("id"));
                     session.setAttribute("userName", rs.getString("name"));
                     session.setAttribute("email", rs.getString("email"));
-                    session.setAttribute("role", rs.getString("role"));
+                    session.setAttribute("role", "USER");
                     session.setAttribute("userPhoto", rs.getString("photo"));
 
                     resp.sendRedirect("DashboardDataServlet");

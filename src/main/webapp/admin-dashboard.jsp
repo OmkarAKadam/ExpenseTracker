@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" import="java.sql.*" %>
 <%
-    if(session.getAttribute("adminId") == null){
+    if(session.getAttribute("role") == null || !session.getAttribute("role").equals("ADMIN")){
         response.sendRedirect("admin-login.jsp");
         return;
     }

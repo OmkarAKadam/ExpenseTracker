@@ -45,10 +45,10 @@ public class ViewExpenseServlet extends HttpServlet {
 
             while(rs.next()){
                 expenses.add(new String[]{
-                        rs.getString("title"),
                         rs.getString("category"),
                         rs.getString("amount"),
-                        rs.getString("date")
+                        rs.getString("date"),
+                        rs.getString("description")
                 });
             }
 

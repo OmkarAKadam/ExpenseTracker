@@ -21,12 +21,24 @@ public class WeeklyReportTask extends java.util.TimerTask {
                 String email = userList.getString("email");
                 String name = userList.getString("name");
 
-                String filePath = PDFGenerator.generate(userId); 
+                String filePath = PDFGenerator.generate(userId);
+
+                // HTML formatted message
+                String message =
+                        "<h2>Weekly Expense Report</h2>" +
+                        "<p>Hello <b>" + name + "</b>,</p>" +
+                        "<p>Your weekly expense report is attached below.</p>" +
+                        "<ul>" +
+                            "<li>Review your spending habits</li>" +
+                            "<li>Track category-wise expenses</li>" +
+                            "<li>Stay consistent & improve financial discipline</li>" +
+                        "</ul>" +
+                        "<p>Keep budgeting smart.<br><br>Regards,<br><b>ExpenseTracker Team</b></p>";
 
                 EmailUtil.sendEmailWithAttachment(
                         email,
                         "Weekly Expense Report",
-                        "Hello " + name + ",\n\nHere is your weekly expense report.\nStay consistent with your spending.\n\nRegards,\nExpense Tracker",
+                        message,
                         filePath
                 );
 

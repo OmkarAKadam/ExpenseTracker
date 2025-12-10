@@ -4,10 +4,7 @@ import com.mycompany.expensetracker.config.DBConnection;
 import com.mycompany.expensetracker.util.EmailUtil;
 import java.io.IOException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import java.sql.*;
 
 @WebServlet("/SendResetOtpServlet")
@@ -35,7 +32,17 @@ public class SendResetOtpServlet extends HttpServlet {
             pst.setString(2, email);
             pst.executeUpdate();
 
-            EmailUtil.sendMail(email,"Password Reset OTP","Your OTP is: "+otp);
+            String msg =
+                "<h2>Password Reset Request</h2>" +
+                "<p>We received a request to reset your ExpenseTracker account password.</p>" +
+                "<p><b>Your OTP Code:</b></p>" +
+                "<h1 style='color:#007bff;'>" + otp + "</h1>" +
+                "<p>Enter this OTP in the verification page to reset your password.</p>" +
+                "<p style='color:red;'>Do not share this code with anyone.</p>" +
+                "<br>" +
+                "<p>Regards,<br><b>ExpenseTracker Team</b></p>";
+
+            EmailUtil.sendHTML(email,"Password Reset OTP",msg);
 
             HttpSession s = req.getSession();
             s.setAttribute("resetEmail", email);

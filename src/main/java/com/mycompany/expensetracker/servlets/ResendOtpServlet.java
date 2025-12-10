@@ -30,7 +30,7 @@ public class ResendOtpServlet extends HttpServlet {
             pst.setString(2, email);
             pst.executeUpdate();
 
-            EmailUtil.sendMail(email, "New OTP", "Your new OTP is: " + otp);
+            EmailUtil.sendMail(email, "New OTP Code", String.valueOf(otp));
 
             resp.sendRedirect("verify-otp.jsp?status=sent");
 

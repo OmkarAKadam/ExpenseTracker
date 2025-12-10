@@ -33,7 +33,7 @@ public class VerifyOtpServlet extends HttpServlet {
             ResultSet rs = pst.executeQuery();
 
             if(rs.next() && rs.getString("otp").equals(otp)){
-
+                System.out.println("⚠ OTP Verified — updating user role & status");
                 PreparedStatement update = con.prepareStatement(
                     "UPDATE users SET verified=1, otp=NULL, role='USER' WHERE email=?"
                 );

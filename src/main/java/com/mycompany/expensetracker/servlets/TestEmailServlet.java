@@ -16,7 +16,7 @@ public class TestEmailServlet extends HttpServlet {
         try {
             // CHANGE THIS EMAIL TO YOUR OWN
             EmailUtil.sendMail(
-                    "YOUR_EMAIL_HERE@gmail.com",
+                    "kaizenki572@gmail.com",
                     "SMTP Live Test",
                     "If you received this, email service is working."
             );

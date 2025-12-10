@@ -50,17 +50,17 @@ public class RegisterServlet extends HttpServlet {
 
             new Thread(() -> {
                 try {
-                    String htmlMsg = "<div style='font-family:Arial;padding:15px;background:#f8f9fa;"
-                            + "border-radius:10px;border:1px solid #ddd;'>"
-                            + "<h2 style='color:#28a745;'>Verification Code</h2>"
-                            + "<p>Hello <b>" + name + "</b>,</p>"
-                            + "<p>Your One-Time Password (OTP) is:</p>"
-                            + "<h1 style='background:#28a745;color:white;padding:10px;"
-                            + "border-radius:8px;text-align:center;'>" + otp + "</h1>"
-                            + "<p>This OTP is valid for 10 minutes. Do not share it with anyone.</p>"
-                            + "<br><strong>Expense Tracker</strong></div>";
+//                    String htmlMsg = "<div style='font-family:Arial;padding:15px;background:#f8f9fa;"
+//                            + "border-radius:10px;border:1px solid #ddd;'>"
+//                            + "<h2 style='color:#28a745;'>Verification Code</h2>"
+//                            + "<p>Hello <b>" + name + "</b>,</p>"
+//                            + "<p>Your One-Time Password (OTP) is:</p>"
+//                            + "<h1 style='background:#28a745;color:white;padding:10px;"
+//                            + "border-radius:8px;text-align:center;'>" + otp + "</h1>"
+//                            + "<p>This OTP is valid for 10 minutes. Do not share it with anyone.</p>"
+//                            + "<br><strong>Expense Tracker</strong></div>";
 
-                    EmailUtil.sendMail(email, "Expense Tracker OTP", htmlMsg);
+                    EmailUtil.sendOtp(email, name, otp);
                 } catch (Exception ignored) {}
             }).start();
 

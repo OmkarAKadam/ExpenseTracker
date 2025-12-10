@@ -14,18 +14,15 @@ public class TestEmailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         try {
-            // CHANGE THIS EMAIL TO YOUR OWN
             EmailUtil.sendMail(
                     "kaizenki572@gmail.com",
                     "SMTP Live Test",
-                    "If you received this, email service is working."
+                    "If you received this, Brevo API is working ✔"
             );
 
-            resp.setContentType("text/plain");
-            resp.getWriter().println("✔ Email Sent Successfully. Check your inbox.");
+            resp.getWriter().println("✔ Email Sent Successfully. Check inbox.");
 
         } catch (Exception e) {
-            resp.setContentType("text/plain");
             resp.getWriter().println("❌ Failed: " + e.getMessage());
         }
     }

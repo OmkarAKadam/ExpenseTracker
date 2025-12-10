@@ -31,7 +31,6 @@ com\mycompany\expensetracker\servlets\RegisterServlet.class
 com\mycompany\expensetracker\servlets\DeleteExpenseServlet.class
 com\mycompany\expensetracker\servlets\UpdateProfileServlet.class
 com\mycompany\expensetracker\servlets\DashboardDataServlet.class
-com\mycompany\expensetracker\util\EmailUtil$1.class
 com\mycompany\expensetracker\tasks\WeeklyReportScheduler.class
 com\mycompany\expensetracker\util\EmailUtil.class
 com\mycompany\expensetracker\servlets\ProfileServlet.class

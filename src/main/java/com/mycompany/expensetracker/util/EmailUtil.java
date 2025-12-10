@@ -1,89 +1,121 @@
 package com.mycompany.expensetracker.util;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
-import java.io.File;
-import java.util.Properties;
+import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 
 public class EmailUtil {
 
-    private static final String FROM_EMAIL = System.getenv("EMAIL_USER"); 
-    private static final String APP_PASSWORD = System.getenv("EMAIL_PASS");
+    private static final String API_KEY = System.getenv("BREVO_API_KEY");
+    private static final String SENDER = System.getenv("BREVO_SENDER");
 
-    private static Session getSession() {
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.host", "smtp-relay.brevo.com");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.ssl.enable", "true");
-        
-        return Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                    System.getenv("EMAIL_USER"), 
-                    System.getenv("EMAIL_PASS")
-                );
-            }
-        });
+    private static final OkHttpClient client = new OkHttpClient();
+
+    public static void sendOtp(String to, String name, int otp) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+
+        JSONObject data = new JSONObject();
+        data.put("sender", new JSONObject().put("email", SENDER).put("name", "ExpenseTracker"));
+        data.put("to", new JSONArray().put(new JSONObject().put("email", to)));
+        data.put("subject", "Your ExpenseTracker OTP");
+        data.put("htmlContent",
+                "<div style='font-family:Arial;padding:15px'>"
+                + "<h2>Verification Code</h2>"
+                + "<p>Hello <b>"+name+"</b>,</p>"
+                + "<p>Your OTP is:</p>"
+                + "<h1 style='color:#28a745'>"+otp+"</h1>"
+                + "<p>Valid for 10 minutes.</p>"
+                + "<p><b>Don't share with anyone</b></p>"
+                + "</div>"
+        );
+
+        Request request = new Request.Builder()
+                .url("https://api.brevo.com/v3/smtp/email")
+                .addHeader("api-key", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .post(RequestBody.create(data.toString(), MediaType.parse("application/json")))
+                .build();
+
+        Response response = client.newCall(request).execute();
+        System.out.println("📩 OTP Email => "+response.code()+" | "+response.message());
     }
 
-    public static void sendMail(String to, String subject, String otp) throws Exception {
-        Message message = new MimeMessage(getSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        message.setSubject(subject);
 
-        String body =
-                "Hello,\n\n" +
-                "Welcome to ExpenseTracker!\n\n" +
-                "Your verification code is:\n" +
-                "🔐 OTP: " + otp + "\n\n" +
-                "Valid for one-time use.\n" +
-                "Do not share it with anyone.\n\n" +
-                "Regards,\nExpenseTracker Team";
+    public static void sendMail(String to, String subject, String message) throws Exception {
+        okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        message.setText(body);
+        org.json.JSONObject data = new org.json.JSONObject();
+        data.put("sender", new org.json.JSONObject().put("email", SENDER).put("name", "ExpenseTracker"));
+        data.put("to", new org.json.JSONArray().put(new org.json.JSONObject().put("email", to)));
+        data.put("subject", subject);
+        data.put("htmlContent", "<p>" + message + "</p>");
 
-        Transport.send(message);
-        System.out.println("📧 OTP email sent to: " + to);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("https://api.brevo.com/v3/smtp/email")
+                .addHeader("api-key", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .post(okhttp3.RequestBody.create(data.toString(), okhttp3.MediaType.parse("application/json")))
+                .build();
+
+        okhttp3.Response response = client.newCall(request).execute();
+        System.out.println("📩 Email Sent Response => " + response.code() + " | " + response.message());
+    }
+    
+    public static void sendOtpReset(String to, int otp) throws Exception {
+
+        OkHttpClient client = new OkHttpClient();
+
+        JSONObject data = new JSONObject();
+        data.put("sender", new JSONObject().put("email", SENDER).put("name", "ExpenseTracker"));
+        data.put("to", new JSONArray().put(new JSONObject().put("email", to)));
+        data.put("subject", "Password Reset OTP");
+        data.put("htmlContent",
+                "<h2>Password Reset Request</h2>"
+                + "<p>We received a request to reset your account password.</p>"
+                + "<h1 style='color:#007bff'>" + otp + "</h1>"
+                + "<p>Enter this OTP to continue.<br><b>Valid for one time use.</b></p>"
+                + "<p style='color:red'>Do NOT share this code.</p>"
+                + "<br><b>- ExpenseTracker Team</b>"
+        );
+
+        Request request = new Request.Builder()
+                .url("https://api.brevo.com/v3/smtp/email")
+                .addHeader("api-key", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .post(RequestBody.create(data.toString(), MediaType.parse("application/json")))
+                .build();
+
+        Response response = client.newCall(request).execute();
+        System.out.println("📩 Password Reset Email => " + response.code()+" | "+response.message());
     }
 
-    public static void sendHTML(String to, String subject, String htmlContent) throws Exception {
-        Message message = new MimeMessage(getSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        message.setSubject(subject);
+    public static void sendAttachment(String to, String subject, String htmlContent, String filePath) throws Exception {
+        byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+        String base64File = Base64.getEncoder().encodeToString(fileBytes);
 
-        message.setContent(htmlContent, "text/html; charset=utf-8");
-        Transport.send(message);
+        JSONObject attachment = new JSONObject()
+                .put("content", base64File)
+                .put("name", Paths.get(filePath).getFileName().toString())
+                .put("type", "application/pdf");
 
-        System.out.println("📩 HTML Email Sent → " + to);
-    }
+        JSONObject body = new JSONObject()
+                .put("sender", new JSONObject().put("email", SENDER).put("name", "Expense Tracker"))
+                .put("to", new JSONArray().put(new JSONObject().put("email", to)))
+                .put("subject", subject)
+                .put("htmlContent", htmlContent)
+                .put("attachment", new JSONArray().put(attachment));
 
-    public static void sendEmailWithAttachment(String to, String subject, String htmlContent, String filePath)
-            throws Exception {
+        Request request = new Request.Builder()
+                .url("https://api.brevo.com/v3/smtp/email")
+                .addHeader("api-key", API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .post(RequestBody.create(body.toString(), MediaType.parse("application/json")))
+                .build();
 
-        Message message = new MimeMessage(getSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        message.setSubject(subject);
-
-        MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setContent(htmlContent, "text/html; charset=utf-8");
-
-        MimeBodyPart attachment = new MimeBodyPart();
-        attachment.attachFile(new File(filePath));
-
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(textPart);
-        multipart.addBodyPart(attachment);
-
-        message.setContent(multipart);
-
-        Transport.send(message);
-        System.out.println("📄 HTML Email + Attachment Sent → " + to);
+        Response response = client.newCall(request).execute();
+        System.out.println("📄 EMAIL WITH ATTACHMENT → " + response.code() + " " + response.message());
     }
 }

@@ -32,17 +32,8 @@ public class SendResetOtpServlet extends HttpServlet {
             pst.setString(2, email);
             pst.executeUpdate();
 
-            String msg =
-                "<h2>Password Reset Request</h2>" +
-                "<p>We received a request to reset your ExpenseTracker account password.</p>" +
-                "<p><b>Your OTP Code:</b></p>" +
-                "<h1 style='color:#007bff;'>" + otp + "</h1>" +
-                "<p>Enter this OTP in the verification page to reset your password.</p>" +
-                "<p style='color:red;'>Do not share this code with anyone.</p>" +
-                "<br>" +
-                "<p>Regards,<br><b>ExpenseTracker Team</b></p>";
+            EmailUtil.sendOtpReset(email, otp);
 
-            EmailUtil.sendHTML(email,"Password Reset OTP",msg);
 
             HttpSession s = req.getSession();
             s.setAttribute("resetEmail", email);

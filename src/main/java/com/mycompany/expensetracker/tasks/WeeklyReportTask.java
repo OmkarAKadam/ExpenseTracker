@@ -3,7 +3,10 @@ package com.mycompany.expensetracker.tasks;
 import com.mycompany.expensetracker.config.DBConnection;
 import com.mycompany.expensetracker.util.EmailUtil;
 import com.mycompany.expensetracker.util.PDFGenerator;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class WeeklyReportTask extends java.util.TimerTask {
 
@@ -12,7 +15,9 @@ public class WeeklyReportTask extends java.util.TimerTask {
         System.out.println("📅 Weekly Expense Report Task Started...");
 
         try (Connection con = DBConnection.getConnection()) {
-            PreparedStatement users = con.prepareStatement("SELECT id, email, name FROM users WHERE role='USER'");
+            PreparedStatement users = con.prepareStatement(
+                    "SELECT id, email, name FROM users WHERE role='USER'"
+            );
             ResultSet userList = users.executeQuery();
 
             while (userList.next()) {
@@ -23,7 +28,6 @@ public class WeeklyReportTask extends java.util.TimerTask {
 
                 String filePath = PDFGenerator.generate(userId);
 
-                // HTML formatted message
                 String message =
                         "<h2>Weekly Expense Report</h2>" +
                         "<p>Hello <b>" + name + "</b>,</p>" +
@@ -35,7 +39,7 @@ public class WeeklyReportTask extends java.util.TimerTask {
                         "</ul>" +
                         "<p>Keep budgeting smart.<br><br>Regards,<br><b>ExpenseTracker Team</b></p>";
 
-                EmailUtil.sendEmailWithAttachment(
+                EmailUtil.sendAttachment(
                         email,
                         "Weekly Expense Report",
                         message,

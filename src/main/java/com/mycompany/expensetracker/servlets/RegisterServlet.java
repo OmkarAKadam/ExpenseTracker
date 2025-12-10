@@ -48,15 +48,21 @@ public class RegisterServlet extends HttpServlet {
             pst.setInt(4, otp);
             pst.executeUpdate();
 
-            String htmlOtp =
-                    "<h2>Email Verification</h2>" +
-                    "<p>Hello <b>" + name + "</b>,</p>" +
-                    "<p>Your OTP for ExpenseTracker registration is:</p>" +
-                    "<h1 style='color:#2E86C1;'>" + otp + "</h1>" +
-                    "<p>Do not share this code with anyone.</p>" +
-                    "<br><p>Regards,<br><b>ExpenseTracker Team</b></p>";
+            new Thread(() -> {
+                try {
+                    String htmlMsg = "<div style='font-family:Arial;padding:15px;background:#f8f9fa;"
+                            + "border-radius:10px;border:1px solid #ddd;'>"
+                            + "<h2 style='color:#28a745;'>Verification Code</h2>"
+                            + "<p>Hello <b>" + name + "</b>,</p>"
+                            + "<p>Your One-Time Password (OTP) is:</p>"
+                            + "<h1 style='background:#28a745;color:white;padding:10px;"
+                            + "border-radius:8px;text-align:center;'>" + otp + "</h1>"
+                            + "<p>This OTP is valid for 10 minutes. Do not share it with anyone.</p>"
+                            + "<br><strong>Expense Tracker</strong></div>";
 
-            EmailUtil.sendHTML(email, "ExpenseTracker Email Verification", htmlOtp);
+                    EmailUtil.sendMail(email, "Expense Tracker OTP", htmlMsg);
+                } catch (Exception ignored) {}
+            }).start();
 
 
             HttpSession session = req.getSession();

@@ -14,6 +14,7 @@ com\mycompany\expensetracker\servlets\VerifyOtpServlet.class
 com\mycompany\expensetracker\service\AnalyticsService.class
 com\mycompany\expensetracker\servlets\UpdateExpenseServlet.class
 com\mycompany\expensetracker\servlets\ViewExpenseServlet.class
+com\mycompany\expensetracker\servlets\TestEmailServlet.class
 com\mycompany\expensetracker\servlets\AddExpenseServlet.class
 com\mycompany\expensetracker\util\PDFGenerator.class
 com\mycompany\expensetracker\servlets\ChangePasswordServlet.class

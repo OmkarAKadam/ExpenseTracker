@@ -179,7 +179,7 @@
     </table>
 
     <div style="text-align:center;">
-        <a href="admin-dashboard.jsp" class="back-btn">← Back</a>
+        <a href="AdminDashboardServlet" class="back-btn">← Back</a>
     </div>
 
 </div>

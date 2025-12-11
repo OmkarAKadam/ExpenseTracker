@@ -45,6 +45,7 @@ public class ViewExpenseServlet extends HttpServlet {
 
             while(rs.next()){
                 expenses.add(new String[]{
+                        String.valueOf(rs.getInt("id")),
                         rs.getString("category"),
                         rs.getString("amount"),
                         rs.getString("date"),

@@ -34,7 +34,7 @@ public class AddExpenseServlet extends HttpServlet {
             pst.setString(5, desc);
 
             pst.executeUpdate();
-            resp.sendRedirect("DashboardDataServlet");
+            resp.sendRedirect("add-expense.jsp");
 
         }catch(Exception e){
             resp.getWriter().println("Error: " + e.getMessage());
